@@ -4,7 +4,7 @@ A production-grade, serverless resume website built entirely on AWS as part of t
 
 This project demonstrates real, hands-on cloud engineering skills — from frontend hosting and CDN configuration to serverless backend APIs and NoSQL database integration.
 
-**Live site:** [View Resume](https://your-cloudfront-url.cloudfront.net)
+**Live site:** [View Resume](https://saddammajid.github.io/cloud-resume-project/)
 
 ---
 
