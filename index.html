@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saddam Majid | AWS Certified Cloud &amp; Infrastructure Engineer</title>
+
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:          #0d1117;
+            --bg-card:     #161b22;
+            --bg-card-2:   #1c2128;
+            --border:      #30363d;
+            --text:        #e6edf3;
+            --muted:       #8b949e;
+            --accent:      #00d4ff;
+            --accent-dim:  rgba(0,212,255,0.08);
+            --green:       #3fb950;
+            --green-dim:   rgba(63,185,80,0.1);
+            --purple:      #a371f7;
+            --orange:      #f0883e;
+            --blue:        #4493f8;
+            --red:         #f85149;
+            --yellow:      #e3b341;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up { animation: fadeUp 0.55s ease both; }
+
+        /* Hero */
+        .hero {
+            background-image:
+                radial-gradient(ellipse at 15% 60%, rgba(0,212,255,0.09) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 20%, rgba(163,113,247,0.07) 0%, transparent 55%);
+            border-bottom: 1px solid var(--border);
+            padding: 64px 0 52px;
+        }
+
+        .container { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+
+        .name-glow {
+            background: linear-gradient(120deg, #e6edf3 0%, #00d4ff 55%, #a371f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 26px 30px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .card:hover { border-color: rgba(0,212,255,0.25); background: var(--bg-card-2); }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.76em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Contact chips */
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.84em;
+            color: var(--muted);
+            background: rgba(255,255,255,0.025);
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
+        }
+        .chip:hover { border-color: rgba(0,212,255,0.5); color: var(--accent); background: var(--accent-dim); text-decoration: none; }
+
+        /* Section titles */
+        .section-title {
+            font-size: 0.67em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--accent);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* Timeline */
+        .tl-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+        .tl-dot.active { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .tl-dot.idle   { background: var(--muted); }
+        .tl-line { width: 1px; background: var(--border); flex-shrink: 0; margin: 5px 0 5px 4.5px; flex: 1; min-height: 16px; }
+
+        /* Cert cards */
+        .cert-card {
+            display: flex; align-items: center; gap: 16px;
+            padding: 15px 18px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 10px; transition: border-color 0.2s;
+        }
+        .cert-card:hover { border-color: rgba(0,212,255,0.25); }
+        .cert-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.35em; flex-shrink: 0; }
+
+        /* Visitor counter */
+        .visitor { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(0,212,255,0.18); border-radius: 20px; padding: 5px 16px; display: inline-block; }
+
+        /* Code block */
+        .code-block { font-family: 'JetBrains Mono', monospace; font-size: 0.79em; background: #0d1117; border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; line-height: 2; overflow-x: auto; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 28px 0; margin-top: 48px; text-align: center; font-size: 0.82em; color: var(--muted); }
+        footer a { color: var(--accent); }
+
+        @media (max-width: 640px) {
+            .hero { padding: 44px 0 38px; }
+            .card { padding: 20px 18px; }
+        }
+    </style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+/* ââ DATA âââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+
+const SKILLS = [
+    {
+        label: "AWS Cloud",
+        color: "#f0883e",
+        dim: "rgba(240,136,62,0.1)",
+        icon: "âï¸",
+        items: ["EC2","S3","IAM","Lambda","API Gateway","DynamoDB","CloudFormation","CloudWatch","VPC","ELB","Route 53","CloudFront","Auto Scaling","SNS","RDS","ACM","Serverless Architecture","Static Web Hosting"]
+    },
+    {
+        label: "Microsoft & Identity",
+        color: "#4493f8",
+        dim: "rgba(68,147,248,0.1)",
+        icon: "ðª",
+        items: ["Windows 10/11","Windows Server 2016/2019","Active Directory (AD DS)","Group Policy (GPO)","Entra ID (Azure AD)","Microsoft Intune","Microsoft 365","Endpoint Management","RDP"]
+    },
+    {
+        label: "Networking & Security",
+        color: "#00d4ff",
+        dim: "rgba(0,212,255,0.08)",
+        icon: "ð",
+        items: ["LAN/WAN","TCP/IP","DHCP","DNS","NAT","VPN","SSL/TLS","CORS","Routers & Switches","Network Segmentation","NTFS Permissions"]
+    },
+    {
+        label: "IaC & Scripting",
+        color: "#3fb950",
+        dim: "rgba(63,185,80,0.1)",
+        icon: "âï¸",
+        items: ["Terraform","CloudFormation","ARM Templates","PowerShell","Bash","Python","JSON","REST APIs"]
+    },
+    {
+        label: "Virtualisation & OS",
+        color: "#a371f7",
+        dim: "rgba(163,113,247,0.1)",
+        icon: "ð¥ï¸",
+        items: ["Hyper-V","VMware","Linux","Ubuntu","Windows Server","Multi-VM Lab Design"]
+    },
+    {
+        label: "Tools & ITSM",
+        color: "#e3b341",
+        dim: "rgba(227,179,65,0.1)",
+        icon: "ð ï¸",
+        items: ["ServiceNow","Salesforce","Autotask","Manage Engine","Genesys Cloud","Git","GitHub","Grafana","ITIL Framework"]
+    }
+];
+
+const EXPERIENCE = [
+    {
+        role: "IT Field Technician",
+        company: "ASI Solutions",
+        location: "Mulgrave, VIC",
+        period: "Jul 2025 â Present",
+        current: true,
+        points: [
+            "Deliver onsite hardware and software deployment across enterprise client environments â desktops, printers, network peripherals, and Windows system configuration",
+            "Troubleshoot and resolve network connectivity, user access, and Active Directory issues in live business settings",
+            "Configure Windows 10/11 workstations, join machines to domains, set up user profiles, and establish network connections",
+            "Collaborate with senior engineers on infrastructure rollouts and maintain service documentation in ticketing systems"
+        ]
+    },
+    {
+        role: "Customer Solutions & Technical Support",
+        company: "Australian Unity",
+        location: "Melbourne, VIC",
+        period: "2023 â Jun 2025",
+        current: false,
+        points: [
+            "Provided Tier 1 technical support across phone, chat, and email â troubleshooting login failures, MFA resets, VPN connectivity, and cloud portal access issues",
+            "Managed identity and access operations: account verification, password resets, and permissions troubleshooting using Salesforce and ServiceNow",
+            "Resolved browser compatibility, mobile app, and SSO-related access issues by following secure diagnostic workflows",
+            "Applied ITIL-aligned incident management: accurate logging, categorisation, and structured escalation to Tier 2 teams",
+            "Built internal knowledge base documentation for recurring technical issues, reducing repeat incidents",
+            "Trained and onboarded new team members on Genesys Cloud, CRM platforms, and diagnostic procedures"
+        ]
+    },
+    {
+        role: "Team Member",
+        company: "Red Energy",
+        location: "",
+        period: "2018 â 2022",
+        current: false,
+        points: [
+            "Delivered high-volume customer service with strong focus on communication, issue resolution, and first-call resolution",
+            "Developed time management, prioritisation, and cross-team collaboration skills in a fast-paced environment"
+        ]
+    }
+];
+
+const PROJECTS = [
+    {
+        name: "âï¸ Cloud Resume Challenge â Full-Stack Serverless on AWS",
+        desc: "Designed and deployed a production-grade serverless resume website entirely on AWS â this site is the live result",
+        tags: ["S3","CloudFront","ACM","Route 53","API Gateway","Lambda","DynamoDB","IAM","CloudWatch","CORS","Python","React"],
+        arch: [
+            { label: "Visitor",     color: "#e6edf3" },
+            { label: "Route 53",    color: "#f0883e" },
+            { label: "CloudFront",  color: "#f0883e" },
+            { label: "S3",          color: "#3fb950" },
+            { label: "API Gateway", color: "#a371f7" },
+            { label: "Lambda",      color: "#f0883e" },
+            { label: "DynamoDB",    color: "#f85149" },
+        ],
+        detail: "Configured S3 static hosting with bucket policies, CloudFront CDN with SSL/TLS certificate via ACM, and custom domain through Route 53. Built a REST API with API Gateway (CORS-enabled) backed by a Python Lambda function that atomically increments a visitor count in DynamoDB. Enforced least-privilege IAM roles throughout. Frontend built with React.",
+        link: "https://github.com/saddammajid"
+    },
+    {
+        name: "ð¢ Enterprise Active Directory & Network Lab",
+        desc: "Production-style multi-VM enterprise environment with full identity and network stack",
+        tags: ["Windows Server","AD DS","GPO","NTFS Permissions","Hyper-V","DNS","DHCP","NAT","Network Segmentation"],
+        detail: "Built a multi-VM enterprise lab on Hyper-V: deployed Windows Server domain controllers with AD DS, configured DNS and DHCP services, created users/groups/OUs, implemented GPOs for password security and system restrictions, set up file shares with NTFS access control, and designed segmented network topology with NAT. Simulated real IT support scenarios including account lockouts, GPO conflicts, and access failures.",
+        link: "https://github.com/saddammajid/enterprise-identity-network-lab"
+    },
+    {
+        name: "ð· Azure Identity & Endpoint Management Lab",
+        desc: "Cloud identity management with Entra ID and Intune device compliance",
+        tags: ["Entra ID","Azure AD","Microsoft Intune","Compliance Policies","RBAC","Conditional Access","Security Baselines"],
+        detail: "Provisioned an Azure tenant, created and managed user identities and RBAC role assignments in Entra ID (Azure AD). Configured Microsoft Intune device compliance policies, explored conditional access controls, and tested endpoint security baselines for managed devices.",
+        link: "https://github.com/saddammajid"
+    }
+];
+
+const CERTS = [
+    { name: "AWS Certified Solutions Architect â Associate", issuer: "Amazon Web Services", icon: "âï¸", color: "#f0883e" },
+    { name: "AWS Cloud Practitioner (CCP)",                  issuer: "Amazon Web Services", icon: "âï¸", color: "#f0883e" },
+    { name: "ITIL Foundation",                               issuer: "Axelos",              icon: "ð", color: "#4493f8", year: "2023" },
+    { name: "Google IT Support Fundamentals",                issuer: "Google",              icon: "ð§", color: "#3fb950", year: "2023" },
+];
+
+/* ââ SMALL COMPONENTS âââââââââââââââââââââââââââââââââââââââââââ */
+
+function Badge({ text, color, dim }) {
+    return (
+        <span className="badge" style={{ background: dim, color, border: `1px solid ${color}35` }}>
+            {text}
+        </span>
+    );
+}
+
+function SectionTitle({ children }) {
+    return <h2 className="section-title">{children}</h2>;
+}
+
+function VisitorCounter() {
+    const [count, setCount] = useState(null);
+    const [err, setErr] = useState(false);
+
+    useEffect(() => {
+        fetch("https://cqypt032g9.execute-api.us-east-1.amazonaws.com/prod/visitorcount1")
+            .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+            .then(d => setCount(d.count))
+            .catch(() => setErr(true));
+    }, []);
+
+    return (
+        <span className="visitor">
+            {err ? "â counter unavailable" : count === null ? "â loadingâ¦" : `â ${Number(count).toLocaleString()} visits`}
+        </span>
+    );
+}
+
+/* ââ SKILL GROUP ââââââââââââââââââââââââââââââââââââââââââââââââ */
+function SkillGroup({ label, color, dim, icon, items }) {
+    return (
+        <div className="card" style={{ marginBottom: 0 }}>
+            <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:13 }}>
+                <span style={{ fontSize:"1.05em" }}>{icon}</span>
+                <span style={{ fontSize:"0.74em", fontWeight:700, color, textTransform:"uppercase", letterSpacing:"1.2px" }}>{label}</span>
+            </div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:7 }}>
+                {items.map(i => <Badge key={i} text={i} color={color} dim={dim} />)}
+            </div>
+        </div>
+    );
+}
+
+/* ââ TIMELINE ITEM ââââââââââââââââââââââââââââââââââââââââââââââ */
+function TimelineItem({ role, company, location, period, current, points, isLast }) {
+    return (
+        <div style={{ display:"flex", gap:16 }}>
+            <div style={{ display:"flex", flexDirection:"column", alignItems:"center" }}>
+                <div className={`tl-dot ${current ? "active" : "idle"}`} />
+                {!isLast && <div className="tl-line" />}
+            </div>
+            <div style={{ paddingBottom: isLast ? 0 : 26, flex:1 }}>
+                <div style={{ display:"flex", alignItems:"baseline", justifyContent:"space-between", flexWrap:"wrap", gap:8, marginBottom:6 }}>
+                    <div>
+                        <span style={{ fontWeight:700, fontSize:"1em" }}>{role}</span>
+                        <span style={{ color:"var(--muted)", margin:"0 6px" }}>@</span>
+                        <span style={{ color:"var(--accent)", fontWeight:600 }}>{company}</span>
+                        {location && <span style={{ color:"var(--muted)", fontSize:"0.82em" }}> Â· {location}</span>}
+                    </div>
+                    <span style={{
+                        fontFamily:"'JetBrains Mono', monospace", fontSize:"0.75em", fontWeight:600,
+                        padding:"3px 10px", borderRadius:20, border:"1px solid var(--border)",
+                        color: current ? "var(--green)" : "var(--muted)",
+                        background: current ? "var(--green-dim)" : "transparent"
+                    }}>
+                        {current && "â "}{period}
+                    </span>
+                </div>
+                <ul style={{ listStyle:"none", padding:0 }}>
+                    {points.map((p, i) => (
+                        <li key={i} style={{
+                            fontSize:"0.88em", color:"var(--muted)", padding:"3px 0 3px 18px",
+                            position:"relative", borderBottom: i < points.length-1 ? "1px solid rgba(48,54,61,0.5)" : "none"
+                        }}>
+                            <span style={{ position:"absolute", left:0, color:"var(--accent)", fontWeight:700 }}>âº</span>
+                            {p}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+/* ââ PROJECT CARD âââââââââââââââââââââââââââââââââââââââââââââââ */
+function ProjectCard({ name, desc, tags, arch, detail, link }) {
+    return (
+        <div className="card" style={{
+            borderColor:"rgba(0,212,255,0.18)",
+            background:"linear-gradient(135deg, rgba(0,212,255,0.03) 0%, rgba(163,113,247,0.03) 100%)"
+        }}>
+            <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", flexWrap:"wrap", gap:12, marginBottom:14 }}>
+                <div>
+                    <h3 style={{ fontWeight:700, fontSize:"1em", marginBottom:4 }}>{name}</h3>
+                    <p style={{ fontSize:"0.84em", color:"var(--muted)" }}>{desc}</p>
+                </div>
+                <a href={link} target="_blank" style={{
+                    padding:"6px 14px", borderRadius:8, border:"1px solid rgba(0,212,255,0.35)",
+                    color:"var(--accent)", fontSize:"0.8em", fontWeight:600,
+                    background:"var(--accent-dim)", textDecoration:"none", whiteSpace:"nowrap"
+                }}>
+                    GitHub â
+                </a>
+            </div>
+            <div style={{ display:"flex", flexWrap:"wrap", gap:7, marginBottom: (arch || detail) ? 14 : 0 }}>
+                {tags.map(t => <Badge key={t} text={t} color="#00d4ff" dim="rgba(0,212,255,0.07)" />)}
+            </div>
+            {arch && (
+                <div className="code-block">
+                    {arch.map((s, i) => (
+                        <span key={s.label}>
+                            <span style={{ color: s.color }}>{s.label}</span>
+                            {i < arch.length - 1 && <span style={{ color:"var(--accent)", margin:"0 6px" }}>â</span>}
+                        </span>
+                    ))}
+                </div>
+            )}
+            {detail && (
+                <p style={{ fontSize:"0.85em", color:"var(--muted)", marginTop:2, lineHeight:1.7 }}>{detail}</p>
+            )}
+        </div>
+    );
+}
+
+/* ââ CERT CARD ââââââââââââââââââââââââââââââââââââââââââââââââââ */
+function CertCard({ name, issuer, icon, color, year }) {
+    return (
+        <div className="cert-card">
+            <div className="cert-icon" style={{ background:`${color}18`, border:`1px solid ${color}38` }}>{icon}</div>
+            <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontWeight:600, fontSize:"0.91em" }}>{name}</div>
+                <div style={{ fontSize:"0.79em", color:"var(--muted)", marginTop:2 }}>{issuer}{year && ` Â· ${year}`}</div>
+            </div>
+            <Badge text="â" color={color} dim={`${color}18`} />
+        </div>
+    );
+}
+
+/* ââ APP ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+function App() {
+    return (
+        <>
+            {/* HERO */}
+            <div className="hero">
+                <div className="container">
+                    <div className="fade-up">
+                        <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:12 }}>
+                            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:"0.75em", color:"var(--orange)", background:"rgba(240,136,62,0.1)", border:"1px solid rgba(240,136,62,0.25)", borderRadius:20, padding:"4px 13px", fontWeight:500 }}>
+                                AWS Solutions Architect
+                            </span>
+                            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:"0.75em", color:"var(--orange)", background:"rgba(240,136,62,0.1)", border:"1px solid rgba(240,136,62,0.25)", borderRadius:20, padding:"4px 13px", fontWeight:500 }}>
+                                AWS Cloud Practitioner
+                            </span>
+                            <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:"0.75em", color:"var(--blue)", background:"rgba(68,147,248,0.1)", border:"1px solid rgba(68,147,248,0.25)", borderRadius:20, padding:"4px 13px", fontWeight:500 }}>
+                                ITIL Foundation
+                            </span>
+                        </div>
+
+                        <h1 className="name-glow" style={{ fontSize:"clamp(2.5em,7vw,4em)", fontWeight:800, lineHeight:1.08, marginBottom:10 }}>
+                            Saddam Majid
+                        </h1>
+
+                        <p style={{ fontSize:"1.06em", color:"var(--muted)", marginBottom:10, letterSpacing:"0.2px" }}>
+                            Cloud &amp; Infrastructure Engineer &nbsp;Â·&nbsp; AWS Certified &nbsp;Â·&nbsp; Melbourne, AU
+                        </p>
+                        <p style={{ fontSize:"0.88em", color:"var(--muted)", marginBottom:26, opacity:0.8 }}>
+                            ð Melbourne, VIC &nbsp;Â·&nbsp; Full Work Rights (PR) &nbsp;Â·&nbsp; Available for Cloud / Infrastructure / SysAdmin roles
+                        </p>
+
+                        <div style={{ display:"flex", flexWrap:"wrap", gap:10, marginBottom:28 }}>
+                            <a href="mailto:saddam.majid249@gmail.com" className="chip">â saddam.majid249@gmail.com</a>
+                            <a href="tel:0470380024" className="chip">ð 0470 380 024</a>
+                            <a href="https://linkedin.com/in/saddam-h-majid" target="_blank" className="chip">in LinkedIn</a>
+                            <a href="https://github.com/saddammajid" target="_blank" className="chip">â¥ GitHub</a>
+                        </div>
+
+                        <VisitorCounter />
+                    </div>
+                </div>
+            </div>
+
+            {/* MAIN */}
+            <div className="container" style={{ paddingTop:44 }}>
+
+                {/* About */}
+                <section style={{ marginBottom:44 }}>
+                    <SectionTitle>About</SectionTitle>
+                    <p style={{ color:"var(--muted)", fontSize:"0.97em", maxWidth:760, lineHeight:1.85 }}>
+                        AWS-certified Cloud &amp; Infrastructure Engineer with hands-on experience designing serverless architectures,
+                        managing enterprise identity environments, and supporting production infrastructure.
+                        Built and deployed a full serverless stack on AWS (this site), configured enterprise Active Directory
+                        and Azure Entra ID environments, and delivered technical support across enterprise platforms.
+                        Combines 3+ years of IT operations experience with genuine cloud engineering skills,
+                        strong documentation, and a drive to build real solutions.
+                    </p>
+                </section>
+
+                {/* Skills */}
+                <section style={{ marginBottom:44 }}>
+                    <SectionTitle>Skills &amp; Technologies</SectionTitle>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(270px,1fr))", gap:14 }}>
+                        {SKILLS.map(s => <SkillGroup key={s.label} {...s} />)}
+                    </div>
+                </section>
+
+                {/* Experience */}
+                <section style={{ marginBottom:44 }}>
+                    <SectionTitle>Experience</SectionTitle>
+                    <div className="card">
+                        {EXPERIENCE.map((job, i) => (
+                            <TimelineItem key={`${job.company}-${i}`} {...job} isLast={i === EXPERIENCE.length - 1} />
+                        ))}
+                    </div>
+                </section>
+
+                {/* Projects */}
+                <section style={{ marginBottom:44 }}>
+                    <SectionTitle>Projects &amp; Homelab</SectionTitle>
+                    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+                        {PROJECTS.map(p => <ProjectCard key={p.name} {...p} />)}
+                    </div>
+                </section>
+
+                {/* Certs + Education */}
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(320px,1fr))", gap:36, marginBottom:44 }}>
+                    <section>
+                        <SectionTitle>Certifications</SectionTitle>
+                        <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+                            {CERTS.map(c => <CertCard key={c.name} {...c} />)}
+                        </div>
+                    </section>
+                    <section>
+                        <SectionTitle>Education</SectionTitle>
+                        <div className="cert-card">
+                            <div className="cert-icon" style={{ background:"rgba(68,147,248,0.1)", border:"1px solid rgba(68,147,248,0.28)" }}>ð</div>
+                            <div>
+                                <div style={{ fontWeight:600, fontSize:"0.93em" }}>Bachelor of Technology</div>
+                                <div style={{ fontSize:"0.8em", color:"var(--muted)", marginTop:3 }}>JNTU Hyderabad</div>
+                            </div>
+                        </div>
+                        <div style={{ marginTop:12 }} className="cert-card">
+                            <div className="cert-icon" style={{ background:"rgba(0,212,255,0.08)", border:"1px solid rgba(0,212,255,0.2)" }}>ð¯</div>
+                            <div>
+                                <div style={{ fontWeight:600, fontSize:"0.93em" }}>Target Roles</div>
+                                <div style={{ fontSize:"0.8em", color:"var(--muted)", marginTop:3, lineHeight:1.5 }}>
+                                    Cloud Engineer &nbsp;Â·&nbsp; Systems Administrator &nbsp;Â·&nbsp; Infrastructure Engineer
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+
+            <footer>
+                <div className="container">
+                    <p style={{ marginBottom:5 }}>
+                        Built with React &amp; AWS &nbsp;Â·&nbsp;
+                        <a href="https://cloudresumechallenge.dev/" target="_blank">Cloud Resume Challenge</a>
+                    </p>
+                    <p>Â© 2024 Saddam Majid Â· Melbourne, VIC</p>
+                </div>
+            </footer>
+        </>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
